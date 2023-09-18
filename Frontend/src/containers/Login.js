@@ -24,12 +24,29 @@ export default class Login {
 		);
 		formAdmin.addEventListener("submit", this.handleSubmitAdmin);
 	}
+
 	handleSubmitEmployee = (e) => {
 		e.preventDefault();
+
+		// Retrieve email input
+		const email = e.target.querySelector(
+			`input[data-testid="employee-email-input"]`
+		).value;
+
+		// Use regEx to validate email
+		const validateEmail = (email) => {
+			const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			return regexEmail.test(email);
+		};
+		// If email is not valid, show alert message
+		if (!validateEmail(email)) {
+			alert("Invalid email address.");
+			return;
+		}
+
 		const user = {
 			type: "Employee",
-			email: e.target.querySelector(`input[data-testid="employee-email-input"]`)
-				.value,
+			email: email,
 			password: e.target.querySelector(
 				`input[data-testid="employee-password-input"]`
 			).value,
@@ -49,11 +66,28 @@ export default class Login {
 
 	handleSubmitAdmin = (e) => {
 		e.preventDefault();
+
+		// Retrieve email input
+		const email = e.target.querySelector(
+			`input[data-testid="admin-email-input"]`
+		).value;
+
+		// Use regEx to validate email
+		const validateEmail = (email) => {
+			const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			return regexEmail.test(email);
+		};
+
+		// If email is not valid, show alert message
+		if (!validateEmail(email)) {
+			alert("Invalid email address.");
+			return;
+		}
+
 		const user = {
 			type: "Admin",
-			// Replaced employee with admin
-			email: e.target.querySelector(`input[data-testid="admin-email-input"]`)
-				.value,
+			// Correction: Replaced employee with admin
+			email: email,
 			password: e.target.querySelector(
 				`input[data-testid="admin-password-input"]`
 			).value,

@@ -48,6 +48,28 @@ describe("Given that I am a user on login page", () => {
 		});
 	});
 
+	// Alert check : Employee invalid email address
+	describe("When I do fill the email field in incorrect format and I click on employee button Login In", () => {
+		test("Then it should show an alert", () => {
+			document.body.innerHTML = LoginUI();
+
+			const form = screen.getByTestId("form-employee");
+			const employeeEmailInput = screen.getByTestId("employee-email-input");
+			fireEvent.change(employeeEmailInput, {
+				target: { value: "invalidEmail" },
+			});
+
+			window.alert = jest.fn();
+
+			// Tigger login process to launch it's eventListener
+			const login = new Login({ document, localStorage });
+
+			fireEvent.submit(form);
+
+			expect(window.alert).toHaveBeenCalledWith("Invalid email address.");
+		});
+	});
+
 	describe("When I do fill fields in correct format and I click on employee button Login In", () => {
 		test("Then I should be identified as an Employee in app", () => {
 			document.body.innerHTML = LoginUI();
@@ -225,6 +247,28 @@ describe("Given that I am a user on login page", () => {
 
 		test("It should renders HR dashboard page", () => {
 			expect(screen.queryByText("Validations")).toBeTruthy();
+		});
+	});
+});
+
+describe("Given that I am an admin on login page", () => {
+	// Alert check : Admin invalid email address
+	describe("When I do fill the email field in incorrect format and I click on admin button Login In", () => {
+		test("Then it should show an alert", () => {
+			document.body.innerHTML = LoginUI();
+
+			const form = screen.getByTestId("form-admin");
+			const adminEmailInput = screen.getByTestId("admin-email-input");
+			fireEvent.change(adminEmailInput, { target: { value: "invalidEmail" } });
+
+			window.alert = jest.fn();
+
+			// Tigger login process to launch it's eventListener
+			const login = new Login({ document, localStorage });
+
+			fireEvent.submit(form);
+
+			expect(window.alert).toHaveBeenCalledWith("Invalid email address.");
 		});
 	});
 });
